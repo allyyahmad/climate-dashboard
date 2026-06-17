@@ -1,0 +1,103 @@
+{
+  "project": "Climate & Disaster Intelligence Dashboard",
+  "time_range": {
+    "start_year": 1980,
+    "end_year": 2024
+  },
+  "dataset_strategy": "Real aggregated climate and disaster datasets joined by year, disaster type, and country.",
+  "raw_source_files": [
+    "nasa_gistemp_global.csv",
+    "noaa_global_co2_annual.csv",
+    "owid_natural_disaster_affected.csv",
+    "owid_natural_disaster_damage.csv",
+    "owid_natural_disaster_deaths.csv",
+    "owid_natural_disaster_events.csv"
+  ],
+  "processed_tables": [
+    {
+      "file": "data/processed/real_global_annual.csv",
+      "rows": 45,
+      "columns": [
+        "Year",
+        "Total_Disaster_Events",
+        "Total_Deaths",
+        "Total_Affected",
+        "Economic_Damage_USD",
+        "Temp_Anomaly_C",
+        "CO2_ppm"
+      ],
+      "column_count": 7,
+      "missing_cells": 0,
+      "duplicate_rows": 0
+    },
+    {
+      "file": "data/processed/real_global_disaster_type_year.csv",
+      "rows": 360,
+      "columns": [
+        "Year",
+        "Disaster_Type",
+        "Event_Count",
+        "Total_Deaths",
+        "Total_Affected",
+        "Economic_Damage_USD"
+      ],
+      "column_count": 6,
+      "missing_cells": 0,
+      "duplicate_rows": 0
+    },
+    {
+      "file": "data/processed/real_country_year_impacts.csv",
+      "rows": 4755,
+      "columns": [
+        "Entity",
+        "Code",
+        "Year",
+        "Total_Deaths",
+        "Total_Affected"
+      ],
+      "column_count": 5,
+      "missing_cells": 0,
+      "duplicate_rows": 0
+    }
+  ],
+  "disaster_types": [
+    "Drought",
+    "Earthquake",
+    "Extreme temperature",
+    "Storms",
+    "Flood",
+    "Landslide",
+    "Volcanic activity",
+    "Wildfire"
+  ],
+  "removed_aggregate_entities": [
+    "Africa",
+    "Asia",
+    "Europe",
+    "European Union (27)",
+    "High-income countries",
+    "Low-income countries",
+    "Lower-middle-income countries",
+    "North America",
+    "Oceania",
+    "South America",
+    "Upper-middle-income countries",
+    "World"
+  ],
+  "preprocessing_steps": [
+    "Read OWID/EM-DAT disaster events, deaths, affected population, and economic damage raw CSVs.",
+    "Read NASA GISTEMP annual global temperature anomaly and NOAA GML annual CO2 raw CSVs.",
+    "Coerced numeric values and converted missing, blank, and masked values to zero where appropriate.",
+    "Joined global annual disaster totals with annual climate indicators by year.",
+    "Reshaped disaster categories into a type-year table for D3 filtering and visual encoding.",
+    "Removed aggregate regions and income groups from the country-year impact table.",
+    "Exported processed CSV files plus a browser-ready real_data.js bundle for reliable dashboard loading."
+  ],
+  "important_limitations": [
+    "Disaster data is aggregated by year, disaster category, and/or country.",
+    "The dashboard does not claim event-level latitude, longitude, or individual disaster records.",
+    "Economic damage values are current USD and are not inflation-adjusted.",
+    "Climate indicators are global annual values, not country-level climate measurements.",
+    "Correlation views are exploratory and must not be interpreted as proof of direct causation."
+  ]
+}
